@@ -1,38 +1,18 @@
-// eslint.config.js
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-import { FlatCompat } from "@eslint/eslintrc";
+import nextConfig from "eslint-config-next";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
-
-export default [
-  ...compat.extends(
-    "plugin:@typescript-eslint/recommended",
-    "plugin:react/recommended",
-    "plugin:react-hooks/recommended",
-    "plugin:jsx-a11y/recommended",
-    "prettier"
-  ),
+const config = [
+  {
+    ignores: [".next/**", "node_modules/**", "public/**", "dist/**", "build/**"],
+  },
+  ...nextConfig,
   {
     files: ["**/*.ts", "**/*.tsx"],
-    languageOptions: {
-      parserOptions: {
-        ecmaVersion: "latest",
-        sourceType: "module",
-        ecmaFeatures: {
-          jsx: true,
-        },
-      },
-    },
     rules: {
       "@typescript-eslint/no-unused-vars": "warn",
-      "react/react-in-jsx-scope": "off", // Not needed in Next.js
-      "react/prop-types": "off", // You are using TypeScript
+      "react/react-in-jsx-scope": "off",
+      "react/prop-types": "off",
     },
   },
 ];
+
+export default config;

@@ -3,31 +3,133 @@
 
 @custom-variant dark (&:is(.dark *));
 
-[dir="rtl"] 
-body {
-  @apply font-sans;
-}
-html {
-  scroll-behavior: smooth;
-}
+/* =============================================================
+   DESIGN TOKENS — single source of truth for the whole site.
+   Change a value here and every component picks it up.
+   ============================================================= */
 :root {
-  --font-dm-sans: 'DM Sans', sans-serif;
+  /* Brand */
+  --brand-from: #f5bd4d;
+  --brand-to: #f89222;
+  --brand-from-soft: #f5bd4de0;
+  --brand-to-soft: #f89122e1;
+  --brand-soft: rgba(245, 189, 77, 0.38);
+  --brand-soft-strong: rgba(245, 189, 77, 0.56);
+  --brand-yellow-ring: #facc15;
+  --brand-orange-wave: #fb923c;
+
+  /* Surfaces */
+  --surface-page: #0e0e0e;
+  --surface-section: #171b1a;
+  --surface-card: #121414;
+  --surface-elevated: #333333;
+  --surface-skill-track: #5b3f1d;
+
+  /* Text */
+  --text-primary: #ffffff;
+  --text-muted: #c6c6c6;
+  --text-muted-2: #c2c2c2;
+  --text-muted-3: #afafaf;
+  --text-disabled: #979797;
+  --text-faded: rgba(255, 255, 255, 0.19);
+  --divider: #646464;
+
+  /* Overlays */
+  --overlay-white-03: rgba(255, 255, 255, 0.03);
+  --overlay-white-05: rgba(255, 255, 255, 0.05);
+  --overlay-white-10: rgba(255, 255, 255, 0.10);
+  --overlay-white-15: rgba(255, 255, 255, 0.15);
+  --overlay-white-20: rgba(255, 255, 255, 0.20);
+
+  /* Radii */
+  --radius: 0.625rem;
+  --radius-pill: 50px;
+
+  /* Typography */
+  --font-dm-sans: "DM Sans", sans-serif;
+  --leading-tight: 1;
+  --leading-snug: 1.2;
+  --leading-relaxed: 1.4;
+  --tracking-flat: 0;
+
+  /* Shadows */
+  --shadow-soft: 0 0 6px 6px var(--overlay-white-05);
+  --shadow-card: 0 10px 25px 0 rgba(255, 255, 255, 0.09);
+  --shadow-glow: 0 0 40px var(--overlay-white-03);
+  --shadow-social:
+    -10px -10px 30px var(--overlay-white-10),
+    10px -10px 30px var(--overlay-white-10),
+    0 -15px 40px rgba(255, 255, 255, 0.01);
+
+  /* Transitions */
+  --transition-fast: 200ms ease;
+  --transition-base: 300ms ease;
+  --transition-slow: 500ms ease;
+
+  /* Layout */
+  --section-max: 1320px;
+  --content-max: 835px;
+
+  /* shadcn neutrals — kept for ui/button etc. */
+  --background: var(--surface-page);
+  --foreground: var(--text-primary);
+  --card: var(--surface-card);
+  --card-foreground: var(--text-primary);
+  --popover: var(--surface-card);
+  --popover-foreground: var(--text-primary);
+  --primary: var(--brand-to);
+  --primary-foreground: #ffffff;
+  --secondary: var(--surface-section);
+  --secondary-foreground: var(--text-primary);
+  --muted: var(--surface-section);
+  --muted-foreground: var(--text-muted);
+  --accent: var(--brand-from);
+  --accent-foreground: #000000;
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: var(--overlay-white-10);
+  --input: var(--overlay-white-15);
+  --ring: var(--brand-yellow-ring);
 }
 
-/* globals.css */
-.font-sans {
-  font-family: var(--font-dm-sans), system-ui, -apple-system, BlinkMacSystemFont,
-    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+.dark {
+  /* Dark is the canonical design — same tokens, no overrides needed.
+     Kept as a no-op so `next-themes` still has a target class. */
 }
 
-
-
-
+/* =============================================================
+   TAILWIND THEME — expose tokens as Tailwind utilities.
+   Adds: bg-surface-section, text-muted, from-brand-from, etc.
+   ============================================================= */
 @theme inline {
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  --color-brand-from: var(--brand-from);
+  --color-brand-to: var(--brand-to);
+  --color-brand-from-soft: var(--brand-from-soft);
+  --color-brand-to-soft: var(--brand-to-soft);
+  --color-brand-soft: var(--brand-soft);
+  --color-brand-soft-strong: var(--brand-soft-strong);
+  --color-brand-yellow-ring: var(--brand-yellow-ring);
+  --color-brand-orange-wave: var(--brand-orange-wave);
+
+  --color-surface-page: var(--surface-page);
+  --color-surface-section: var(--surface-section);
+  --color-surface-card: var(--surface-card);
+  --color-surface-elevated: var(--surface-elevated);
+  --color-surface-skill-track: var(--surface-skill-track);
+
+  --color-text-primary: var(--text-primary);
+  --color-text-muted: var(--text-muted);
+  --color-text-muted-2: var(--text-muted-2);
+  --color-text-muted-3: var(--text-muted-3);
+  --color-text-disabled: var(--text-disabled);
+  --color-text-faded: var(--text-faded);
+  --color-divider: var(--divider);
+
+  --color-overlay-white-03: var(--overlay-white-03);
+  --color-overlay-white-05: var(--overlay-white-05);
+  --color-overlay-white-10: var(--overlay-white-10);
+  --color-overlay-white-15: var(--overlay-white-15);
+  --color-overlay-white-20: var(--overlay-white-20);
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -46,169 +148,156 @@ html {
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-pill: var(--radius-pill);
+
+  --shadow-soft: var(--shadow-soft);
+  --shadow-card: var(--shadow-card);
+  --shadow-glow: var(--shadow-glow);
+  --shadow-social: var(--shadow-social);
+
+  --font-sans:
+    var(--font-dm-sans), system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
-:root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+/* =============================================================
+   GLOBAL ELEMENT STYLES
+   ============================================================= */
+html {
+  scroll-behavior: smooth;
 }
 
-.dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+body {
+  background: var(--surface-page);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
 }
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
+    border-color: var(--border);
   }
 }
 
-.primary_text_color{
-  color: #3f4144;
+/* =============================================================
+   REUSABLE UTILITY CLASSES
+   ============================================================= */
+
+/* Brand gradient — used for backgrounds, text-fills, and borders.
+   Drop-in for `bg-gradient-to-r from-[#F5BD4D] to-[#F89222]`. */
+.bg-brand-gradient {
+  background-image: linear-gradient(to right, var(--brand-from), var(--brand-to));
+}
+.bg-brand-gradient-soft {
+  background-image: linear-gradient(to right, var(--brand-from-soft), var(--brand-to-soft));
+}
+.bg-brand-gradient-diag-left {
+  background-image: linear-gradient(225deg, var(--surface-section) 50%, var(--surface-card) 50%);
+}
+.bg-brand-gradient-diag-right {
+  background-image: linear-gradient(135deg, var(--surface-section) 50%, var(--surface-card) 50%);
 }
 
-/* banner image css */
-
-@keyframes slide-right {
-  0% { width: 0; left: 0; }
-  100% { width: 100%; left: 0; }
+/* Text painted with the brand gradient. */
+.text-brand-gradient {
+  background-image: linear-gradient(to right, var(--brand-from), var(--brand-to));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
 }
 
-@keyframes slide-left {
-  0% { width: 0; right: 0; }
-  100% { width: 100%; right: 0; }
-}
-
-@keyframes slide-down {
-  0% { height: 0; top: 0; }
-  100% { height: 100%; top: 0; }
-}
-
-.animated-border-wrapper {
+/* Gradient text-stroke (used on the "Talk To Me" pill border). */
+.brand-gradient-border {
   position: relative;
+  isolation: isolate;
+}
+.brand-gradient-border::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  border-radius: inherit;
+  background-image: linear-gradient(to right, var(--brand-from), var(--brand-to));
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
 }
 
+/* Section container — same width / padding everywhere. */
+.section-container {
+  max-width: var(--section-max);
+  margin-inline: auto;
+  padding-inline: 1rem;
+  background: var(--surface-section);
+  color: var(--text-primary);
+}
+
+/* Pricing button hover (replaces JS onMouseEnter/Leave). */
+.pricing-cta {
+  border: 1px solid var(--brand-yellow-ring);
+  color: var(--brand-from);
+  background-color: transparent;
+  transition: background var(--transition-base), color var(--transition-base), border-color var(--transition-base);
+}
+.pricing-cta:hover {
+  background-image: linear-gradient(89.71deg, var(--brand-from) 0.36%, var(--brand-to) 99.88%);
+  color: var(--text-primary);
+  border-color: transparent;
+}
+
+/* Animated skill bar — CSS-only, no JS gate. */
+@keyframes skill-fill {
+  from { width: 0; }
+  to   { width: var(--skill-progress, 0%); }
+}
+.skill-bar-fill {
+  animation: skill-fill 1500ms ease-in-out forwards;
+}
+
+/* Animated banner border lines (kept from original, retokenized). */
+@keyframes slide-right { 0% { width: 0; left: 0; } 100% { width: 100%; left: 0; } }
+@keyframes slide-left  { 0% { width: 0; right: 0; } 100% { width: 100%; right: 0; } }
+@keyframes slide-down  { 0% { height: 0; top: 0; } 100% { height: 100%; top: 0; } }
+
+.animated-border-wrapper { position: relative; }
 .animated-border-wrapper.ltr::after,
 .animated-border-wrapper.rtl::after,
 .animated-border-wrapper.ltr::before,
 .animated-border-wrapper.rtl::before {
   content: "";
   position: absolute;
-  background-color: #3f4144; /* fallback */
+  background-color: var(--divider);
   animation-delay: 1s;
   animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
 }
-
 .dark .animated-border-wrapper::after,
 .dark .animated-border-wrapper::before {
-  background-color: #e5e7eb; /* gray-200 */
+  background-color: var(--text-primary);
 }
+
+/* Section background pattern (was inline on SectionWrapper). */
+.section-pattern {
+  background-image: url("/assets/icons/Mask group.svg");
+  background-size: cover;
+  background-repeat: repeat-y;
+  background-position: center;
+}
+
+/* Misc */
 .scrollbar-hide {
   -ms-overflow-style: none !important;
   scrollbar-width: none !important;
 }
-.scrollbar-hide::-webkit-scrollbar {
-  display: none !important;
-}
-.break-inside-avoid {
-  break-inside: avoid;
-}
-button:hover {
-  color: white !important;
-  transition: background-color 0.3s ease, color 0.3s ease;
-  background: #000;
-}
-/* styles.css or Pricing.module.css */
-.custom-button {
-  border: 1px solid #facc15; /* tailwind yellow-300 */
-  padding: 0.75rem 1.5rem; /* py-3 px-6 */
-  border-radius: 0.5rem; /* rounded-lg */
-  color: #f59e0b; /* text-orange-400 */
-  background-color: transparent;
-  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-  cursor: pointer;
-  z-index: 50;
-}
+.scrollbar-hide::-webkit-scrollbar { display: none !important; }
 
-.custom-button:hover {
-  background-color: white;
-  color: black;
-  border-color: transparent;
-}
+.break-inside-avoid { break-inside: avoid; }

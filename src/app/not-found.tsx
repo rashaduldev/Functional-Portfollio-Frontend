@@ -1,22 +1,14 @@
-"use client"
+import Link from "next/link";
+import Image from "next/image";
+import { getTranslations } from "@/lib/i18n";
 
-import Link from "next/link"
-import Image from "next/image"
-import { useContext } from "react"
-import { LayoutContext } from "@/components/context"
-
-export default function NotFound() {
-  const context = useContext(LayoutContext)
-  if (!context) {
-    throw new Error("LayoutContext must be used within a LayoutContext.Provider")
-  }
-
-  const { translations, isRTL } = context
+export default async function NotFound() {
+  const { t, isRTL } = await getTranslations();
 
   return (
     <main
       dir={isRTL ? "rtl" : "ltr"}
-      className="flex flex-col items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900 p-4 text-center"
+      className="flex flex-col items-center justify-center min-h-screen bg-surface-page text-text-primary p-4 text-center"
     >
       <Image
         src="https://res.cloudinary.com/de8yddexc/image/upload/v1747288109/resume/nw1t97hoccwxtzxrbp2i.svg"
@@ -26,20 +18,21 @@ export default function NotFound() {
         className="mx-auto"
       />
 
-      <h1 className="text-4xl md:text-6xl font-bold text-gray-800 dark:text-white mt-4">
-        404 - {translations?.notFound?.title || "Page Not Found"}
+      <h1 className="text-4xl md:text-6xl font-bold mt-4">
+        404 - {t.notFound?.title || "Page Not Found"}
       </h1>
 
-      <p className="mt-4 text-gray-600 dark:text-gray-300 max-w-lg">
-        {translations?.notFound?.description || "Sorry, the page you are looking for doesn’t exist or has been moved."}
+      <p className="mt-4 text-text-muted max-w-lg">
+        {t.notFound?.description ||
+          "Sorry, the page you are looking for doesn't exist or has been moved."}
       </p>
 
       <Link
         href="/"
-        className="mt-6 inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg text-sm font-medium transition"
+        className="mt-6 inline-block bg-brand-gradient hover:opacity-90 text-text-primary px-6 py-2 rounded-pill text-sm font-medium transition"
       >
-        {translations?.notFound?.backToHome || "Go Back Home"}
+        {t.notFound?.backToHome || "Go Back Home"}
       </Link>
     </main>
-  )
+  );
 }

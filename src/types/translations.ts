@@ -70,11 +70,6 @@ export interface InfoData {
   location: string;
   description: string;
 }
-export interface LayoutContextProps {
-  translations: Translations;
-  isRTL: boolean;
-}
-
 export interface EducationItem {
   period: string;
   university: string;

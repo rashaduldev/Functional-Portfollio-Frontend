@@ -1,6 +1,3 @@
-"use client";
-
-import { useContext, useState, useEffect } from "react";
 import {
   FaFacebookF,
   FaLinkedinIn,
@@ -8,11 +5,9 @@ import {
   FaTwitter,
   FaGithub,
 } from "react-icons/fa";
-import { motion } from "framer-motion";
-import { LayoutContext } from "./context";
-import handsomeimage from "../../public/assets/handsome.png";
-import { BsMoonFill, BsSunFill } from "react-icons/bs";
 import Image from "next/image";
+import Link from "next/link";
+import handsomeimage from "../../public/assets/handsome.png";
 import download from "../../public/assets/icons/download.svg";
 import home from "../../public/assets/icons/Home.svg";
 import img1 from "../../public/assets/icons/active-home.svg";
@@ -20,7 +15,10 @@ import img2 from "../../public/assets/icons/profile-about.svg";
 import img3 from "../../public/assets/icons/portfolio.svg";
 import img4 from "../../public/assets/icons/blog.svg";
 import img5 from "../../public/assets/icons/contact.svg";
-import Link from "next/link";
+import type { Translations } from "@/types/translations";
+import LanguageSwitcher from "./LanguageSwitcher";
+import ThemeToggle from "./ThemeToggle";
+import ScrollContactLink from "./ScrollContactLink";
 
 const socialLinks = [
   { icon: <FaFacebookF />, url: "facebook.com" },
@@ -31,65 +29,26 @@ const socialLinks = [
 ];
 
 const sideMenuIcons = [
-  {
-    img: img1,
-    alt: "Home",
-    href: "/",
-  },
-  {
-    img: img2,
-    alt: "Resume",
-    href: "#resume",
-  },
-  {
-    img: img3,
-    alt: "Portfolio",
-    href: "#portfolio",
-  },
-  {
-    img: img4,
-    alt: "Blogs",
-    href: "#blogs",
-  },
-  {
-    img: img5,
-    alt: "Contact",
-    href: "#contact",
-  },
+  { img: img1, alt: "Home", href: "/" },
+  { img: img2, alt: "Resume", href: "#resume" },
+  { img: img3, alt: "Portfolio", href: "#portfolio" },
+  { img: img4, alt: "Blogs", href: "#blogs" },
+  { img: img5, alt: "Contact", href: "#contact" },
 ];
-export default function ProfileCard() {
-  const context = useContext(LayoutContext);
-  if (!context)
-    throw new Error(
-      "LayoutContext must be used within a LayoutContext.Provider"
-    );
 
-  const { language, setLanguage, translations, isRTL } = context;
-  const PROFILEinfo = translations.PROFILE;
-  const info = translations.info;
+type Props = {
+  t: Pick<Translations, "PROFILE" | "info">;
+  language: string;
+  isRTL: boolean;
+};
 
-  const [darkMode, setDarkMode] = useState(() => {
-    if (typeof window !== "undefined") {
-      return localStorage.getItem("darkMode") === "true";
-    }
-    return true;
-  });
-    const rtlStyles: React.CSSProperties = isRTL
-  ? {
-      direction: 'rtl',
-      fontSize: '12px',
-      textAlign: 'right',
-    }
-  : {
-      direction: 'ltr',
-      fontSize: '14px',
-      textAlign: 'left',
-    };
+export default function ProfileCard({ t, language, isRTL }: Props) {
+  const PROFILEinfo = t.PROFILE;
+  const info = t.info;
 
-  useEffect(() => {
-    document.documentElement.classList.toggle("dark", darkMode);
-    localStorage.setItem("darkMode", darkMode.toString());
-  }, [darkMode]);
+  const rtlStyles: React.CSSProperties = isRTL
+    ? { direction: "rtl", fontSize: "12px", textAlign: "right" }
+    : { direction: "ltr", fontSize: "14px", textAlign: "left" };
 
   return (
     <div
@@ -97,19 +56,18 @@ export default function ProfileCard() {
       className="flex justify-center items-start transition-colors duration-300"
     >
       <div className="w-full max-w-[1320px] relative z-10">
-        {/* Background text behind */}
         <h1
           className={`absolute -top-10 ${
-            isRTL ? '-right-20' : '-left-20'
-          } text-7xl font-bold leading-[100%] tracking-[0] text-[#ffffff30] select-none pointer-events-none w-[257px] h-[90px] z-0`}
-          dir={isRTL ? 'rtl' : 'ltr'}
+            isRTL ? "-right-20" : "-left-20"
+          } text-7xl font-bold leading-none text-text-faded select-none pointer-events-none w-[257px] h-[90px] z-0`}
+          dir={isRTL ? "rtl" : "ltr"}
         >
-          {info.home || 'Home'}
+          {info.home || "Home"}
         </h1>
-        {/* Topbar */}
+
         <div
-          className="w-full grid grid-cols-[36px_1fr] sm:grid-cols-[44px_1fr] md:grid-cols-[42px_368px_1fr] bg-[#121414] dark:bg-[#121414] text-white px-3 sm:px-4 md:px-6 z-50 relative"
-          dir={isRTL ? "rtl" : "ltr"}  // toggle dir attribute here
+          className="w-full grid grid-cols-[36px_1fr] sm:grid-cols-[44px_1fr] md:grid-cols-[42px_368px_1fr] bg-surface-card text-text-primary px-3 sm:px-4 md:px-6 z-50 relative"
+          dir={isRTL ? "rtl" : "ltr"}
         >
           <div></div>
 
@@ -119,18 +77,18 @@ export default function ProfileCard() {
                 isRTL ? "rtl:ml-6 rtl:pr-0 ml-0 pr-3" : ""
               }`}
             >
-              <h1 className="text-2xl sm:text-3xl md:text-[32px] font-bold leading-[100%] flex items-center gap-1 sm:gap-2">
+              <h1 className="text-2xl sm:text-3xl md:text-[32px] font-bold leading-none flex items-center gap-1 sm:gap-2">
                 {info.firstname || "Daryl"}
-                <span className="bg-gradient-to-r from-[#F5BD4D] to-[#F89222] bg-clip-text text-transparent">
+                <span className="text-brand-gradient">
                   {info.lastname || "Smith"}
                 </span>
               </h1>
-              <p className="text-sm sm:text-base md:text-[18px] text-[#C2C2C2] mt-1 sm:mt-2">
+              <p className="text-sm sm:text-base md:text-lg text-text-muted-2 mt-1 sm:mt-2">
                 {info.profession || "UI/UX designer"}
               </p>
             </div>
             <div
-              className={`hidden md:block absolute right-0 top-0 bottom-0 w-px bg-zinc-700 ${
+              className={`hidden md:block absolute right-0 top-0 bottom-0 w-px bg-divider ${
                 isRTL ? "rtl:left-0 right-auto" : ""
               }`}
             />
@@ -142,7 +100,7 @@ export default function ProfileCard() {
             }`}
           >
             <div className="flex items-center gap-2 sm:gap-3">
-              <span className="w-9 h-9 sm:w-10 sm:h-10 rounded-[6px] bg-gradient-to-r from-[#F5BD4D] to-[#F89222] flex items-center justify-center text-white p-1">
+              <span className="w-9 h-9 sm:w-10 sm:h-10 rounded-md bg-brand-gradient flex items-center justify-center text-text-primary p-1">
                 <Image
                   height={20}
                   width={20}
@@ -151,80 +109,37 @@ export default function ProfileCard() {
                   alt=""
                 />
               </span>
-              <span className="text-xl sm:text-2xl font-bold">{info.home || "Home"}</span>
+              <span className="text-xl sm:text-2xl font-bold">
+                {info.home || "Home"}
+              </span>
             </div>
-            <div className={`flex items-center gap-2 sm:gap-4 ${isRTL ? "rtl:flex-row" : "flex-row-reverse"}`}>
-              <button
-                onClick={() => setDarkMode(!darkMode)}
-                aria-label="Toggle dark mode"
-                className="text-lg md:text-xl text-yellow-400 hover:text-yellow-300 transition"
-              >
-                {darkMode ? <BsSunFill /> : <BsMoonFill />}
-              </button>
-              <a
-                href="#contact"
-                className="relative inline-flex items-center justify-center
-                  w-auto h-[42px] sm:h-[45px] rounded-[50px] border border-transparent
-                  px-4 sm:px-6 py-2 gap-2 font-bold text-sm sm:text-[16px]
-                  text-transparent whitespace-nowrap"
-                style={{
-                  background: "linear-gradient(to right, #F5BD4D, #F89222)",
-                  WebkitBackgroundClip: "text",
-                  backgroundClip: "text",
-                }}
-                onClick={(e) => {
-                  e.preventDefault();
-                  document
-                    .querySelector("#contact")
-                    ?.scrollIntoView({ behavior: "smooth" });
-                }}
-              >
-                <span
-                  className="absolute inset-0 rounded-[50px]"
-                  style={{
-                    padding: "1px",
-                    background: "linear-gradient(to right, #F5BD4D, #F89222)",
-                    WebkitMask:
-                      "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
-                    WebkitMaskComposite: "destination-out",
-                    maskComposite: "exclude",
-                    pointerEvents: "none",
-                  }}
-                />
-                {info.talk_to_me || "Talk To Me"}
-              </a>
+            <div
+              className={`flex items-center gap-2 sm:gap-4 ${
+                isRTL ? "rtl:flex-row" : "flex-row-reverse"
+              }`}
+            >
+              <ThemeToggle />
+              <ScrollContactLink label={info.talk_to_me || "Talk To Me"} />
             </div>
           </div>
         </div>
-      {/* Main layout */}
+
         <div
           dir={language === "ar" ? "rtl" : "ltr"}
-          className="bg-[#171B1A] dark:bg-[#171B1A] grid grid-cols-1 md:grid-cols-[auto_68px_365px_1fr_68px_auto]"
+          className="bg-surface-section grid grid-cols-1 md:grid-cols-[auto_68px_365px_1fr_68px_auto]"
         >
-          {/* Left gradient */}
           <div className="hidden md:block relative w-full h-full overflow-hidden">
-            <div
-              className="absolute inset-0 z-0"
-              style={{
-                background: "linear-gradient(225deg, #171B1A 50%, #121414 50%)",
-              }}
-            />
+            <div className="absolute inset-0 z-0 bg-brand-gradient-diag-left" />
           </div>
 
-          {/* Side menu icons */}
           <div className="hidden md:flex relative max-w-[68px] w-full flex-col items-center justify-center py-8 overflow-hidden">
-            <div
-              className="absolute inset-0 z-0"
-              style={{
-                background: "linear-gradient(225deg, #171B1A 50%, #121414 50%)",
-              }}
-            />
+            <div className="absolute inset-0 z-0 bg-brand-gradient-diag-left" />
             <div className="relative z-10 flex flex-col gap-8">
               {sideMenuIcons.map((icon, i) => (
                 <Link
                   key={i}
                   href={icon.href}
-                  className="text-gray-400 hover:text-yellow-400 text-2xl cursor-pointer transition-transform duration-300 hover:scale-110 w-[32px] h-[32px]"
+                  className="text-text-muted hover:text-brand-yellow-ring text-2xl cursor-pointer transition-transform duration-300 hover:scale-110 w-8 h-8"
                 >
                   <Image
                     src={icon.img}
@@ -238,15 +153,7 @@ export default function ProfileCard() {
             </div>
           </div>
 
-          {/* Profile card */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="bg-black dark:bg-black w-full max-w-[368px] mx-auto flex flex-col justify-between items-center border border-transparent hover:border-[#f5bd4d8e] transition-all duration-300"
-          >
-            {/* Image section */}
+          <div className="bg-black w-full max-w-[368px] mx-auto flex flex-col justify-between items-center border border-transparent hover:border-brand-soft-strong transition-all duration-300">
             <div className="relative w-full h-[504px] overflow-hidden">
               <Image
                 height={504}
@@ -257,56 +164,41 @@ export default function ProfileCard() {
               />
             </div>
 
-            {/* Social icons container */}
-            <div
-              className="flex gap-2 py-4 px-4 flex-wrap justify-center w-full relative z-10 overflow-x-auto"
-              style={{
-                boxShadow: `
-                  -10px -10px 30px rgba(255, 255, 255, 0.1),  
-                  10px -10px 30px rgba(255, 255, 255, 0.1),   
-                  0px -15px 40px rgba(255, 255, 255, 0.01)     
-                `,
-              }}
-            >
+            <div className="flex gap-2 py-4 px-4 flex-wrap justify-center w-full relative z-10 overflow-x-auto shadow-social">
               {socialLinks.map((link, i) => (
                 <a
                   key={i}
                   href={link.url}
-                  className="text-gray-300 text-[16px] p-2 bg-[#121414] rounded-full transition duration-300 hover:scale-110"
+                  className="text-text-muted text-base p-2 bg-surface-card rounded-full transition duration-300 hover:scale-110"
                 >
                   {link.icon}
                 </a>
               ))}
             </div>
-          </motion.div>
+          </div>
 
-          {/* Main content */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
+          <div
             className={`flex flex-col w-full px-4 md:px-0 max-w-[611px] justify-center mt-10 md:mt-0 ${
               language === "ar" ? "text-right mr-12" : "text-left md:ml-12"
             }`}
           >
-            <span className="font-bold text-[14px] md:text-[16px] leading-[100%] tracking-[0%] bg-gradient-to-r from-[#F5BD4D] to-[#F89222] bg-clip-text text-transparent uppercase mb-2">
+            <span className="font-bold text-sm md:text-base leading-none tracking-normal text-brand-gradient uppercase mb-2">
               {PROFILEinfo.INTRODUCTION}
             </span>
-            <h1 className="text-[32px] md:text-[48px] leading-[130%] tracking-normal font-bold mb-4 text-white">
+            <h1 className="text-3xl md:text-5xl leading-snug tracking-normal font-bold mb-4 text-text-primary">
               {PROFILEinfo.CREATIVE_ROLE}
             </h1>
-            <p className="text-sm md:text-base font-bold leading-[140%] tracking-normal text-white mb-4">
+            <p className="text-sm md:text-base font-bold leading-relaxed tracking-normal text-text-primary mb-4">
               {info.age} / {info.author} / {info.location}
             </p>
-            <p className="text-[#C6C6C6] my-5 text-sm md:text-base font-medium leading-[120%] tracking-normal mb-6 max-w-full">
+            <p className="text-text-muted my-5 text-sm md:text-base font-medium leading-snug tracking-normal mb-6 max-w-full">
               {info.description}
             </p>
             <a
               href="/assets/Resume of Md Rashadul Islam.pdf"
               download="Rashadul-Islam-CV.pdf"
               rel="noopener noreferrer"
-              className="bg-gradient-to-r mt-5 from-[#F5BD4D] to-[#F89222] hover:opacity-90 text-white w-fit px-6 py-3 rounded-[50px] font-bold text-base leading-[100%] tracking-normal flex items-center gap-[10px] transition"
+              className="bg-brand-gradient mt-5 hover:opacity-90 text-text-primary w-fit px-6 py-3 rounded-pill font-bold text-base leading-none tracking-normal flex items-center gap-2.5 transition"
             >
               {PROFILEinfo.DOWNLOAD_CV}
               <Image
@@ -317,54 +209,27 @@ export default function ProfileCard() {
                 alt="download"
               />
             </a>
-          </motion.div>
+          </div>
 
-          {/* Right gradient and footer */}
           <div className="hidden md:flex relative max-w-[68px] w-full items-center justify-center overflow-hidden">
-            <div
-              className="absolute inset-0 z-0"
-              style={{
-                background: "linear-gradient(135deg, #171B1A 50%, #121414 50%)",
-              }}
-            />
+            <div className="absolute inset-0 z-0 bg-brand-gradient-diag-right" />
             <div className="absolute top-10 inset-0 z-10 flex flex-col gap-32 justify-evenly items-center">
-                <div
-                  className="rotate-90 origin-center text-gray-300 whitespace-nowrap mt-24"
-                  style={{
-                    fontWeight: 400,
-                    lineHeight: "100%",
-                    letterSpacing: "0%",
-                    ...rtlStyles,
-                  }}
-                >
-                  {info.copy_right || "© design by themefisher developed by gethugothemes"}
-                </div>
-              <div className="flex flex-col items-center gap-3">
-                {["fr", "en", "ar"].map((lang) => (
-                  <span
-                    key={lang}
-                    onClick={() => setLanguage(lang)}
-                    className={`w-[32px] h-[32px] text-white text-[10px] px-2 py-1 rounded-full cursor-pointer transition flex items-center justify-center ${
-                      language === lang
-                        ? "text-black"
-                        : "bg-zinc-700 hover:bg-yellow-400 hover:text-black"
-                    }`}
-                    style={
-                      language === lang
-                        ? {
-                            background: "linear-gradient(to right, #F5BD4D, #F89222)",
-                          }
-                        : {}
-                    }
-                  >
-                    {lang.toUpperCase()}
-                  </span>
-                ))}
+              <div
+                className="rotate-90 origin-center text-text-muted whitespace-nowrap mt-24"
+                style={{
+                  fontWeight: 400,
+                  lineHeight: "var(--leading-tight)",
+                  letterSpacing: "var(--tracking-flat)",
+                  ...rtlStyles,
+                }}
+              >
+                {info.copy_right ||
+                  "© design by themefisher developed by gethugothemes"}
               </div>
+              <LanguageSwitcher current={language} />
             </div>
           </div>
 
-          {/* Right empty column for layout symmetry */}
           <div className="hidden md:block" />
         </div>
       </div>

@@ -1,29 +1,22 @@
-"use client";
-
-import React, { useContext } from "react";
 import Link from "next/link";
-import { LayoutContext } from "./context";
-import img1 from "../../public/assets/icons/Line 120.svg";
 import Image from "next/image";
+import img1 from "../../public/assets/icons/Line 120.svg";
+import type { BlogItem } from "@/types/translations";
 
-const Blog: React.FC = () => {
-  const context = useContext(LayoutContext);
-  if (!context)
-    throw new Error(
-      "LayoutContext must be used within a LayoutContext.Provider"
-    );
+type Props = {
+  items: BlogItem[];
+  title: string;
+  isRTL: boolean;
+};
 
-  const { translations, isRTL } = context;
-  const { blog } = translations;
+const truncateDescription = (text: string, wordLimit = 13): string => {
+  const words = text.trim().split(/\s+/);
+  return words.length > wordLimit
+    ? words.slice(0, wordLimit).join(" ") + "..."
+    : text;
+};
 
-  // Truncate description to 13 words
-  const truncateDescription = (text: string, wordLimit = 13): string => {
-    const words = text.trim().split(/\s+/);
-    return words.length > wordLimit
-      ? words.slice(0, wordLimit).join(" ") + "..."
-      : text;
-  };
-
+export default function Blog({ items, title, isRTL }: Props) {
   return (
     <section
       id="blogs"
@@ -34,17 +27,16 @@ const Blog: React.FC = () => {
     >
       <div className="max-w-[674px] mx-auto">
         <h2
-          className={`font-bold text-[48px] leading-[100%] tracking-[0%] mb-8 text-white ${
+          className={`font-bold text-5xl leading-none mb-8 text-text-primary ${
             isRTL ? "text-right" : "text-left"
           }`}
         >
-          Blog
+          {title || "Blog"}
         </h2>
 
-        {/* Blog Cards */}
         <div className="columns-1 sm:columns-2 gap-6 space-y-6">
-          {blog.map((item) => (
-            <Link key={item.id} href={`/blog/${item.id}`} passHref>
+          {items.map((item) => (
+            <Link key={item.id} href={`/blog/${item.id}`}>
               <article className="group cursor-pointer overflow-hidden border border-black bg-black mb-10 rounded-md">
                 <Image
                   width={400}
@@ -53,18 +45,32 @@ const Blog: React.FC = () => {
                   alt={item.title}
                   className="w-full object-cover transition-transform duration-300 group-hover:scale-105"
                 />
-                <div className="p-6 text-white space-y-3">
+                <div className="p-6 text-text-primary space-y-3">
                   <p className="font-normal text-xs opacity-70">
                     {item.category} | {item.date}
                   </p>
-                  <h3 className="text-lg font-bold leading-[1.4]">{item.title}</h3>
-                  <p className="text-sm font-normal opacity-70 leading-[1.4]">
+                  <h3 className="text-lg font-bold leading-snug">
+                    {item.title}
+                  </h3>
+                  <p className="text-sm font-normal opacity-70 leading-snug">
                     {truncateDescription(item.description)}
                   </p>
-                  <p className="flex items-center gap-2 text-sm font-normal leading-[1.3]">
-                    <Image width={4} height={4} className="w-4" src={img1.src} alt="" />
+                  <p className="flex items-center gap-2 text-sm font-normal leading-snug">
+                    <Image
+                      width={4}
+                      height={4}
+                      className="w-4"
+                      src={img1.src}
+                      alt=""
+                    />
                     Posted By {item.author}
-                    <Image width={4} height={4} className="w-4" src={img1.src} alt="" />
+                    <Image
+                      width={4}
+                      height={4}
+                      className="w-4"
+                      src={img1.src}
+                      alt=""
+                    />
                   </p>
                 </div>
               </article>
@@ -74,6 +80,4 @@ const Blog: React.FC = () => {
       </div>
     </section>
   );
-};
-
-export default Blog;
+}

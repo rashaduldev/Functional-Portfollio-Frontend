@@ -7,50 +7,72 @@ import Portfolio from "@/components/Portfolio";
 import Blog from "@/components/Blog";
 import SectionWrapper from "@/components/SectionWrapper";
 import ScrollToTopWithProgress from "@/components/ScrollToTopWithProgress";
+import { getTranslations } from "@/lib/i18n";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const { t, language, isRTL } = await getTranslations();
+
   return (
-    <div className="dark:bg-[#0e0e0e] text-black dark:text-white shadow-[0_0_40px_rgba(255,255,255,0.03)]">
-      <ScrollToTopWithProgress/>
+    <div className="bg-surface-page text-text-primary shadow-glow">
+      <ScrollToTopWithProgress isRTL={isRTL} />
+
       <SectionWrapper>
-        <div className="md:pt-36 ">
-          <ProfileCard />
+        <div className="md:pt-36">
+          <ProfileCard
+            t={{ PROFILE: t.PROFILE, info: t.info }}
+            language={language}
+            isRTL={isRTL}
+          />
         </div>
       </SectionWrapper>
 
       <SectionWrapper>
-        <div className="max-w-[1320px] px-4 mx-auto bg-[#171B1A] dark:bg-[#171B1A] text-white">
-          <Resume />
+        <div className="section-container">
+          <Resume
+            t={{
+              resume: t.resume,
+              educationTitle: t.educationTitle,
+              workHistoryTitle: t.workHistoryTitle,
+              education: t.education,
+              workHistory: t.workHistory,
+            }}
+            isRTL={isRTL}
+          />
         </div>
       </SectionWrapper>
 
       <SectionWrapper>
-        <div className="max-w-[1320px] px-4 mx-auto bg-[#171B1A] dark:bg-[#171B1A] text-white">
-          <Skills />
+        <div className="section-container">
+          <Skills t={t.skills} isRTL={isRTL} />
         </div>
       </SectionWrapper>
 
       <SectionWrapper>
-        <div className="max-w-[1320px] px-4 mx-auto bg-[#171B1A] dark:bg-[#171B1A] text-white">
-          <Portfolio />
+        <div className="section-container">
+          <Portfolio
+            title={t.portfolioTitle}
+            categories={t.portfolioCategories}
+            items={t.portfolioData}
+            isRTL={isRTL}
+          />
         </div>
       </SectionWrapper>
 
       <SectionWrapper>
-        <div className="max-w-[1320px] px-4 mx-auto bg-[#171B1A] dark:bg-[#171B1A] text-white">
-          <Blog />
+        <div className="section-container">
+          <Blog items={t.blog} title={t.blog_title} isRTL={isRTL} />
         </div>
       </SectionWrapper>
 
       <SectionWrapper>
-        <div className="max-w-[1320px] px-4 mx-auto bg-[#171B1A] dark:bg-[#171B1A] text-white">
-          <Pricing />
+        <div className="section-container">
+          <Pricing t={t.pricing} isRTL={isRTL} />
         </div>
       </SectionWrapper>
 
       <SectionWrapper>
-        <div className="max-w-[1320px] px-4 mx-auto bg-[#171B1A] dark:bg-[#171B1A] text-white">
-          <Contact />
+        <div className="section-container">
+          <Contact t={t.contactForm} />
         </div>
       </SectionWrapper>
     </div>
