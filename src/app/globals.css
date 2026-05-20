@@ -5,10 +5,12 @@
 
 /* =============================================================
    DESIGN TOKENS — single source of truth for the whole site.
-   Change a value here and every component picks it up.
+   :root  = LIGHT mode (default)
+   .dark  = DARK mode overrides
+   Brand colors are shared between modes.
    ============================================================= */
 :root {
-  /* Brand */
+  /* Brand (shared between light & dark) */
   --brand-from: #f5bd4d;
   --brand-to: #f89222;
   --brand-from-soft: #f5bd4de0;
@@ -18,28 +20,34 @@
   --brand-yellow-ring: #facc15;
   --brand-orange-wave: #fb923c;
 
-  /* Surfaces */
-  --surface-page: #0e0e0e;
-  --surface-section: #171b1a;
-  --surface-card: #121414;
-  --surface-elevated: #333333;
-  --surface-skill-track: #5b3f1d;
+  /* Light-mode surfaces */
+  --surface-page: #f5f5f5;
+  --surface-section: #ffffff;
+  --surface-card: #fafafa;
+  --surface-elevated: #e7e7e7;
+  --surface-skill-track: #fde4b8;
+  --surface-deep: #ededed;
 
-  /* Text */
-  --text-primary: #ffffff;
-  --text-muted: #c6c6c6;
-  --text-muted-2: #c2c2c2;
-  --text-muted-3: #afafaf;
-  --text-disabled: #979797;
-  --text-faded: rgba(255, 255, 255, 0.19);
-  --divider: #646464;
+  /* Light-mode text */
+  --text-primary: #171717;
+  --text-muted: #525252;
+  --text-muted-2: #404040;
+  --text-muted-3: #6b6b6b;
+  --text-disabled: #a3a3a3;
+  --text-faded: rgba(0, 0, 0, 0.12);
+  --divider: #d4d4d4;
 
-  /* Overlays */
-  --overlay-white-03: rgba(255, 255, 255, 0.03);
-  --overlay-white-05: rgba(255, 255, 255, 0.05);
-  --overlay-white-10: rgba(255, 255, 255, 0.10);
-  --overlay-white-15: rgba(255, 255, 255, 0.15);
-  --overlay-white-20: rgba(255, 255, 255, 0.20);
+  /* Light-mode tonal overlays (renders darker on light bg).
+     Variable name retained for backwards compat; in light mode
+     it overlays BLACK at the given alpha, in dark it overlays WHITE. */
+  --overlay-white-03: rgba(0, 0, 0, 0.04);
+  --overlay-white-05: rgba(0, 0, 0, 0.06);
+  --overlay-white-10: rgba(0, 0, 0, 0.08);
+  --overlay-white-15: rgba(0, 0, 0, 0.12);
+  --overlay-white-20: rgba(0, 0, 0, 0.18);
+
+  /* Section pattern overlay (the bg-overlay over the .section-pattern SVG) */
+  --section-overlay: rgba(255, 255, 255, 0.55);
 
   /* Radii */
   --radius: 0.625rem;
@@ -52,14 +60,14 @@
   --leading-relaxed: 1.4;
   --tracking-flat: 0;
 
-  /* Shadows */
+  /* Shadows — recomputed per mode below */
   --shadow-soft: 0 0 6px 6px var(--overlay-white-05);
-  --shadow-card: 0 10px 25px 0 rgba(255, 255, 255, 0.09);
+  --shadow-card: 0 10px 25px 0 rgba(0, 0, 0, 0.08);
   --shadow-glow: 0 0 40px var(--overlay-white-03);
   --shadow-social:
     -10px -10px 30px var(--overlay-white-10),
     10px -10px 30px var(--overlay-white-10),
-    0 -15px 40px rgba(255, 255, 255, 0.01);
+    0 -15px 40px rgba(0, 0, 0, 0.04);
 
   /* Transitions */
   --transition-fast: 200ms ease;
@@ -92,8 +100,38 @@
 }
 
 .dark {
-  /* Dark is the canonical design — same tokens, no overrides needed.
-     Kept as a no-op so `next-themes` still has a target class. */
+  /* Dark-mode surfaces */
+  --surface-page: #0e0e0e;
+  --surface-section: #171b1a;
+  --surface-card: #121414;
+  --surface-elevated: #333333;
+  --surface-skill-track: #5b3f1d;
+  --surface-deep: #000000;
+
+  /* Dark-mode text */
+  --text-primary: #ffffff;
+  --text-muted: #c6c6c6;
+  --text-muted-2: #c2c2c2;
+  --text-muted-3: #afafaf;
+  --text-disabled: #979797;
+  --text-faded: rgba(255, 255, 255, 0.19);
+  --divider: #646464;
+
+  /* Dark-mode overlays (white-on-dark) */
+  --overlay-white-03: rgba(255, 255, 255, 0.03);
+  --overlay-white-05: rgba(255, 255, 255, 0.05);
+  --overlay-white-10: rgba(255, 255, 255, 0.10);
+  --overlay-white-15: rgba(255, 255, 255, 0.15);
+  --overlay-white-20: rgba(255, 255, 255, 0.20);
+
+  --section-overlay: rgba(0, 0, 0, 0.55);
+
+  /* Dark shadows */
+  --shadow-card: 0 10px 25px 0 rgba(255, 255, 255, 0.09);
+  --shadow-social:
+    -10px -10px 30px var(--overlay-white-10),
+    10px -10px 30px var(--overlay-white-10),
+    0 -15px 40px rgba(255, 255, 255, 0.01);
 }
 
 /* =============================================================
@@ -115,6 +153,7 @@
   --color-surface-card: var(--surface-card);
   --color-surface-elevated: var(--surface-elevated);
   --color-surface-skill-track: var(--surface-skill-track);
+  --color-surface-deep: var(--surface-deep);
 
   --color-text-primary: var(--text-primary);
   --color-text-muted: var(--text-muted);
@@ -176,6 +215,7 @@ body {
   background: var(--surface-page);
   color: var(--text-primary);
   font-family: var(--font-sans);
+  transition: background-color var(--transition-base), color var(--transition-base);
 }
 
 @layer base {
@@ -241,6 +281,11 @@ body {
   color: var(--text-primary);
 }
 
+/* Section pattern overlay — flips white→black with theme. */
+.section-overlay {
+  background: var(--section-overlay);
+}
+
 /* Pricing button hover (replaces JS onMouseEnter/Leave). */
 .pricing-cta {
   border: 1px solid var(--brand-yellow-ring);
@@ -250,7 +295,7 @@ body {
 }
 .pricing-cta:hover {
   background-image: linear-gradient(89.71deg, var(--brand-from) 0.36%, var(--brand-to) 99.88%);
-  color: var(--text-primary);
+  color: #ffffff;
   border-color: transparent;
 }
 

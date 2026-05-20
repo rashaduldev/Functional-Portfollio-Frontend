@@ -41,7 +41,7 @@ export default function Portfolio({ title, categories, items, isRTL }: Props) {
         </h2>
 
         <nav
-          className={`mb-8 bg-black rounded-md overflow-x-auto min-h-[60px] shadow-card ${
+          className={`mb-8 bg-surface-card rounded-md overflow-x-auto min-h-[60px] shadow-card ${
             isRTL ? "pr-10" : "pl-10"
           } scrollbar-hide`}
           aria-label="Portfolio Categories"
@@ -68,7 +68,7 @@ export default function Portfolio({ title, categories, items, isRTL }: Props) {
         <div className="columns-1 sm:columns-2 gap-4 space-y-4 max-w-[674px]">
           {filteredItems.map((item) => (
             <div key={item.id} className="break-inside-avoid">
-              <div className="relative group overflow-hidden bg-black">
+              <div className="relative group overflow-hidden bg-surface-card">
                 {item.image && (
                   <Image
                     height={400}
@@ -80,7 +80,7 @@ export default function Portfolio({ title, categories, items, isRTL }: Props) {
                 )}
 
                 <div
-                  className="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-text-primary p-4"
+                  className="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-white p-4"
                   style={{ direction: isRTL ? "rtl" : "ltr" }}
                 >
                   <a
@@ -89,16 +89,16 @@ export default function Portfolio({ title, categories, items, isRTL }: Props) {
                     rel="noopener noreferrer"
                     className={`absolute top-2 ${
                       isRTL ? "left-2" : "right-2"
-                    } z-50 bg-black text-text-primary hover:text-text-muted rounded-full h-8 w-8 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow-soft`}
+                    } z-50 bg-black/70 text-white hover:text-white/70 rounded-full h-8 w-8 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow-soft`}
                     aria-label={`More info about ${item.title}`}
                   >
-                    <FaLink className="text-text-primary text-base w-4 h-4 pointer-events-none" />
+                    <FaLink className="text-white text-base w-4 h-4 pointer-events-none" />
                   </a>
 
                   <h3 className="font-bold text-xl text-center mb-2">
                     {item.title}
                   </h3>
-                  <p className="font-normal text-base text-text-muted-3 text-center">
+                  <p className="font-normal text-base text-white/70 text-center">
                     {item.description}
                   </p>
                 </div>
@@ -111,7 +111,7 @@ export default function Portfolio({ title, categories, items, isRTL }: Props) {
           {staticItems.map((item) => (
             <div
               key={item.id}
-              className="bg-black p-6 max-h-[204px] md:max-w-[332px] text-text-primary relative flex flex-col justify-center items-center"
+              className="bg-surface-card p-6 max-h-[204px] md:max-w-[332px] text-text-primary relative flex flex-col justify-center items-center"
               style={{ height: 300 }}
             >
               <h3
@@ -131,7 +131,7 @@ export default function Portfolio({ title, categories, items, isRTL }: Props) {
                 rel="noopener noreferrer"
                 className={`absolute top-2 ${
                   isRTL ? "left-2" : "right-2"
-                } z-50 bg-black text-text-primary hover:text-text-muted rounded-full h-8 w-8 flex items-center justify-center opacity-100 transition-opacity duration-300 shadow-soft`}
+                } z-50 bg-surface-elevated text-text-primary hover:text-text-muted rounded-full h-8 w-8 flex items-center justify-center opacity-100 transition-opacity duration-300 shadow-soft`}
                 aria-label={`More info about ${item.title}`}
               >
                 <FaLink className="text-text-primary text-base w-4 h-4 pointer-events-none" />

@@ -29,7 +29,7 @@ export default function Pricing({ t, isRTL }: Props) {
           {plans.map((plan, index) => (
             <div
               key={index}
-              className="relative bg-black text-text-primary p-6 overflow-hidden"
+              className="relative bg-surface-card text-text-primary p-6 overflow-hidden"
             >
               <div
                 className={`absolute top-0 bottom-0 h-[124px] w-[140px] opacity-10 pointer-events-none z-0 ${

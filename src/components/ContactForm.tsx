@@ -21,7 +21,7 @@ const initialState: FormState = {
 };
 
 const inputClass =
-  "w-full px-4 py-2 rounded-md bg-black text-text-primary border border-brand-soft focus:outline-none focus:ring-1 focus:ring-brand-from";
+  "w-full px-4 py-2 rounded-md bg-surface-card text-text-primary border border-brand-soft focus:outline-none focus:ring-1 focus:ring-brand-from";
 
 type Props = {
   labels: ContactFormLabels;

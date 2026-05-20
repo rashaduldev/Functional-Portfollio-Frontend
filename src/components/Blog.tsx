@@ -37,7 +37,7 @@ export default function Blog({ items, title, isRTL }: Props) {
         <div className="columns-1 sm:columns-2 gap-6 space-y-6">
           {items.map((item) => (
             <Link key={item.id} href={`/blog/${item.id}`}>
-              <article className="group cursor-pointer overflow-hidden border border-black bg-black mb-10 rounded-md">
+              <article className="group cursor-pointer overflow-hidden border border-divider bg-surface-card mb-10 rounded-md">
                 <Image
                   width={400}
                   height={400}

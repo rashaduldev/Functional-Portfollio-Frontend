@@ -153,7 +153,7 @@ export default function ProfileCard({ t, language, isRTL }: Props) {
             </div>
           </div>
 
-          <div className="bg-black w-full max-w-[368px] mx-auto flex flex-col justify-between items-center border border-transparent hover:border-brand-soft-strong transition-all duration-300">
+          <div className="bg-surface-card w-full max-w-[368px] mx-auto flex flex-col justify-between items-center border border-transparent hover:border-brand-soft-strong transition-all duration-300">
             <div className="relative w-full h-[504px] overflow-hidden">
               <Image
                 height={504}
